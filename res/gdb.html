@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>GDB</title>
+<link rel="stylesheet" type="text/css" href="gdb.css">
+<link rel="stylesheet" type="text/css" href="rightcontext.css"> 
+</head>
+<body>
+
+<table>
+<tr>
+	<td valign="top"><b>Asm:</b><br>
+		<div id="divAsm" class="pannel scroll" style="width:500px; height:700px;"></div></td>
+	<td valign="top">
+		<b>Break:</b> <input type="text" id="setBreak" onkeyup="ev.setBreak(this);"><br>
+		<div id="divBreak" class="pannel" style="width:550px; height:250px;"></div><br>
+		<b>(gdb)</b> <input type=text id="txtGdb" onkeyup="ev.sendCommand(this);"><br>
+		<div id="divOut" class="pannel"><br></div><br>
+		<b>Mem:</b><input type="text" id="memAddr" onkeyup="ev.syncMem();"><br>
+		<div id="divMem" class="pannel" style="width:550px; height:340px"><br></div></td>
+	<td valign="top"><b>Regs:</b><br>
+		<div id="divRegs" class="pannel" style="width:300px; height:370px;"></div><br>
+		<b>Stack:</b><br>
+		<div id="divStack" class="pannel" style="width:300px; height:290px;"></div></td>
+</tr><tr>
+
+	<td valign="top" colspan="2">
+		
+	</td>
+
+
+</tr>
+</table>
+
+
+
+<script src="rightcontext.js"></script>
+<script src="http.js"></script>
+<script src="pannel.js"></script>
+<script src="menu.js"></script>
+<script src="gdb.js"></script>
+
+
+</body>
+</html>

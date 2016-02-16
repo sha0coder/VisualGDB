@@ -1,0 +1,37 @@
+{
+  "name": "visualgdb",
+  "version": "0.1.5",
+  "description": "Web interface for gdb debugger",
+  "main": "visualgdb.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "gdb",
+    "debugging",
+    "reversing",
+    "elf",
+    "binary",
+    "assembler",
+    "visual",
+    "web"
+  ],
+  "author": {
+    "name": "@sha0coder"
+  },
+  "license": "LGPL",
+  "depenencies": {
+    "gdb.js": ">0.0.2"
+  },
+  "readme": "== install ==\n\nnpm install visualgdb\n\nnpm install gdb.js\n\n== run == \n\nnode visualgdb.js [binary to debug]\n\nex:\n\nnode visualgdb.js /bin/ls\n\nclick on http://127.0.0.1:1337 link \n\n== todo ==\n\n- asm scroll\n\n- change => asm $pc selector by a red background\n\n- align the asm instructions\n\n- asm buttons\n\t- finish function\n\t- scroll down\n\t- scroll up",
+  "readmeFilename": "README",
+  "_id": "visualgdb@0.1.5",
+  "dist": {
+    "shasum": "10c8154798bf8a3db168106ea8ab7acf74727912"
+  },
+  "_from": "visualgdb@",
+  "_resolved": "https://registry.npmjs.org/visualgdb/-/visualgdb-0.1.5.tgz"
+}

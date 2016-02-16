@@ -1,0 +1,22 @@
+/* http://www.w3schools.com/html/html_colornames.asp */
+
+body {
+	background-color:#f0f0f0;
+}
+
+.pannel {
+	/*height: 5px;
+	width: 5px;*/
+	font-family: monospace;
+	font-size: medium;
+	border: 1px solid LightSlateGray;
+	background-color: white;
+}
+
+.scroll {
+	overflow:scroll;
+}
+
+.inline {
+	display:inline;
+}
