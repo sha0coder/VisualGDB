@@ -1,6 +1,10 @@
+== install ==
 
+npm install visualgdb
 
-== usage == 
+npm install gdb.js
+
+== run == 
 
 node visualgdb.js [binary to debug]
 
@@ -13,6 +17,8 @@ click on http://127.0.0.1:1337 link
 == todo ==
 
 - asm scroll
+
+- change => asm $pc selector by a red background
 
 - align the asm instructions
 
