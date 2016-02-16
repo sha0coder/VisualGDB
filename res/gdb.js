@@ -13,9 +13,15 @@ Array.prototype.readLastItem = function() {
 
 Array.prototype.existsAddr = function(item) {
 	for (var i=0; i<this.length; i++)
-		if (parseInt(item) == parseInt(this[i]))
+		if (item == this[i])
 			return true;
 	return false;
+};
+
+Array.prototype.remove = function(item) {
+	var idx = this.indexOf(item);
+	if (idx >= 0)
+		this.splice(idx,1);
 };
 
 String.prototype.startsWith = function(suffix) {
@@ -47,19 +53,39 @@ String.prototype.has = function(substr) {
 };
 
 
+
+
 var gdb = {
 	running: false,
 	break_points: [],
 	code_navigation: []
 };
+
 gdb.cmd = function(cmd,cb) {
 	console.log(cmd);
 	http.async('/gdb?cmd='+escape(cmd),'',cb);
 };
 
+gdb.breakpointAddrToNum = function(addr, cb) {
+	gdb.cmd('info break', function(data) {
+		var lines = data.data.split('\n');
+		for (var i=0; i<lines.length; i++) {
+			var line = lines[i];
+			var lineAddr = parseInt(/0x[A-Fa-f0-9]+/.exec(line))
+			
+			if (!isNaN(lineAddr) && lineAddr == addr) {
+				var lineNum = line.split(' ')[0]; //control this
+				if (!isNaN(parseInt(lineNum)))
+					return cb(lineNum);
+			}
+		}
+	});
+};
+
 var ev = {
 	lastcmd: 'ni',
 };
+
 ev.sendCommand = function(obj) {
 	if (event.keyCode != 13)
 		return;
@@ -191,7 +217,7 @@ ev.syncAsm = function(addr,cb) {
 				//TODO: remark breakpoints
 				if (parseInt(addr) == pc)
 					bgcolor = '#d3d3d3';
-				else if (gdb.break_points.existsAddr(addr))
+				else if (gdb.break_points.existsAddr(parseInt(addr)))
 					bgcolor = '#F75D59';
 				else 
 					bgcolor = ''
@@ -219,7 +245,10 @@ ev.syncBreak = function(cb) {
 				var s = ebp.split(' ');
 				var id = s[0];
 				s.splice(0,4);
-				gdb.break_points.push(s[0]);
+				var addr = parseInt(s[0]);
+				if (!isNaN(addr))
+					gdb.break_points.push(addr);
+
 				if (s.length>1)
 					bp.add('<div context="mnuBP" class="inline" bpID="'+id+'" bpAddr="'+s[0]+'">'+s[0]+' '+s[1]+'</div><br>');
 				else
@@ -288,14 +317,40 @@ ev.listFunctions = function() {
 				out += '<span style="color:red">'+name+'</span> '+params;
 				out += '</div>';
 				out+='<br>';
-			}
-			
+			}			
 		}
 
 		w.document.write(out);
 	});
 };
 
+ev.setBreakpoint = function(sAddr) {
+	var addr = parseInt(sAddr);
+	
+	if (gdb.break_points.existsAddr(addr)) {
+		ev.clearBreakpoint(sAddr);
+		return;
+	}
+
+	gdb.break_points.push(addr);
+	gdb.cmd('b *'+sAddr, ev.syncAll);
+};
+
+ev.clearBreakpoint = function(sAddr) {
+	var addr = parseInt(sAddr);
+
+	if (!gdb.break_points.existsAddr(addr))
+		return;
+
+	gdb.breakpointAddrToNum(addr, function(bpNum) {
+		gdb.cmd('delete '+bpNum, function() {
+			gdb.break_points.remove(addr);
+			ev.syncAll();
+		});
+	});
+
+	
+}
 
 asmcolor = {
 	colors: {
@@ -320,10 +375,8 @@ asmcolor = {
 	}
 };
 
-
 ev.syncAll();
 
 
-
-
 console.log('gdb interface initialized!');
+

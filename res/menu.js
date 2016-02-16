@@ -126,8 +126,7 @@ mnuAsm =  {
 			  {type:RightContext.TYPE_MENU,
 				  text: "Breakpoint",
 				  onclick: function() {
-					  gdb.break_points.push('[asmAddr]');
-					  gdb.cmd('b *[asmAddr]', ev.syncAll);
+						ev.setBreakpoint('[asmAddr]');
 				  }},
 		  
 			  {type:RightContext.TYPE_MENU,

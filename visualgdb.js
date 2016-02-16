@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /*
 	visual gdb by @sha0coder
 
